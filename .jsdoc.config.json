@@ -1,0 +1,32 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": [
+      "README.md",
+      "package.json",
+      "instagram.js",
+      "stream.js"
+    ],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "templates": {
+    "cleverLinks": true,
+    "default": {
+      "includeDate": false,
+      "outputSourceFiles": true
+    }
+  },
+  "opts": {
+    "destination": "./docs",
+    "template": "./node_modules/minami",
+    "recurse": true,
+    "private": true,
+    "encoding": "utf-8"
+  }
+}
