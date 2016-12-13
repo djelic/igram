@@ -1,6 +1,6 @@
 {
   "name": "igram",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Instagram API client",
   "main": "instagram.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "jsdoc": "^3.4.0",
     "minami": "^1.1.1",
     "mocha": "^3.0.2",
-    "nock": "^8.0.0",
+    "nock": "^9.0.2",
     "node-readme": "^0.1.9",
     "should": "^11.1.0"
   }
