@@ -20,6 +20,9 @@ Instagram API client
 
 `npm install --save igram`
 
+## API
+
+See the [documentation](https://djelic.github.io/igram/).
 
 ## Scripts
 
@@ -36,7 +39,7 @@ Package | Version | Dev
 [jsdoc](https://www.npmjs.com/package/jsdoc) | ^3.4.0 | ✔
 [minami](https://www.npmjs.com/package/minami) | ^1.1.1 | ✔
 [mocha](https://www.npmjs.com/package/mocha) | ^3.0.2 | ✔
-[nock](https://www.npmjs.com/package/nock) | ^8.0.0 | ✔
+[nock](https://www.npmjs.com/package/nock) | ^9.0.2 | ✔
 [node-readme](https://www.npmjs.com/package/node-readme) | ^0.1.9 | ✔
 [should](https://www.npmjs.com/package/should) | ^11.1.0 | ✔
 

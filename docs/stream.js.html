@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Instagram.html">Instagram</a><ul class='methods'><li data-type='method'><a href="Instagram.html#getAuth">getAuth</a></li><li data-type='method'><a href="Instagram.html#getAuthorizationUrl">getAuthorizationUrl</a></li><li data-type='method'><a href="Instagram.html#request">request</a></li><li data-type='method'><a href="Instagram.html#requestAccessToken">requestAccessToken</a></li><li data-type='method'><a href="Instagram.html#setAuth">setAuth</a></li></ul></li><li><a href="InstagramStream.html">InstagramStream</a><ul class='methods'><li data-type='method'><a href="InstagramStream.html#follow">follow</a></li><li data-type='method'><a href="InstagramStream.html#following">following</a></li><li data-type='method'><a href="InstagramStream.html#track">track</a></li><li data-type='method'><a href="InstagramStream.html#tracking">tracking</a></li><li data-type='method'><a href="InstagramStream.html#unfollow">unfollow</a></li><li data-type='method'><a href="InstagramStream.html#untrack">untrack</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#AUTH_ACCESS_TOKEN_PATH">AUTH_ACCESS_TOKEN_PATH</a></li><li><a href="global.html#AUTH_AUTHORIZATION_PATH">AUTH_AUTHORIZATION_PATH</a></li><li><a href="global.html#AUTH_PARAMS">AUTH_PARAMS</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Instagram.html">Instagram</a><ul class='methods'><li data-type='method'><a href="Instagram.html#getAuth">getAuth</a></li><li data-type='method'><a href="Instagram.html#getAuthorizationUrl">getAuthorizationUrl</a></li><li data-type='method'><a href="Instagram.html#request">request</a></li><li data-type='method'><a href="Instagram.html#requestAccessToken">requestAccessToken</a></li><li data-type='method'><a href="Instagram.html#setAuth">setAuth</a></li></ul></li><li><a href="InstagramStream.html">InstagramStream</a><ul class='methods'><li data-type='method'><a href="InstagramStream.html#follow">follow</a></li><li data-type='method'><a href="InstagramStream.html#following">following</a></li><li data-type='method'><a href="InstagramStream.html#setAccessToken">setAccessToken</a></li><li data-type='method'><a href="InstagramStream.html#track">track</a></li><li data-type='method'><a href="InstagramStream.html#tracking">tracking</a></li><li data-type='method'><a href="InstagramStream.html#unfollow">unfollow</a></li><li data-type='method'><a href="InstagramStream.html#untrack">untrack</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#AUTH_ACCESS_TOKEN_PATH">AUTH_ACCESS_TOKEN_PATH</a></li><li><a href="global.html#AUTH_AUTHORIZATION_PATH">AUTH_AUTHORIZATION_PATH</a></li><li><a href="global.html#AUTH_PARAMS">AUTH_PARAMS</a></li></ul>
 </nav>
 
 <div id="main">
@@ -66,13 +66,15 @@ class InstagramStream extends Readable {
    * @param {Object} [options] Instance options.
    * @param {string} [options.client_id] Client ID.
    * @param {string} [options.client_secret] Client Secret.
+   * @param {string} [options.access_token] Access token.
    */
 
   constructor (options) {
-    options || (options = {})
     super({ objectMode: true })
 
+    options || (options = {})
     this._client = options.client || new Instagram(options)
+    this._token = options.access_token
 
     this._filters = {
       [FILTER_TYPE_TAG]: {},
@@ -112,16 +114,28 @@ class InstagramStream extends Readable {
   }
 
   /**
+   * Set access token.
+   *
+   * @param {string} token Access token.
+   *
+   * @returns {InstagramStream} This instance. 
+   */
+
+  setAccessToken (token) {
+    this._token = token
+    return this
+  }
+
+  /**
    * Track tag.
    *
    * @param {string} tag Tag name.
-   * @param {string} [accessToken] Optional user access token.
    *
    * @returns {InstagramStream} This instance.
    */
 
-  track (tag, accessToken) {
-    this._addFilter(FILTER_TYPE_TAG, tag, accessToken)
+  track (tag) {
+    this._addFilter(FILTER_TYPE_TAG, tag)
     return this
   }
 
@@ -142,13 +156,12 @@ class InstagramStream extends Readable {
    * Follow user.
    *
    * @param {string} userId User ID.
-   * @param {string} [accessToken] Optional user access token.
    *
    * @returns {InstagramStream} This instance.
    */
 
-  follow (userId, accessToken) {
-    this._addFilter(FILTER_TYPE_USER, userId, accessToken)
+  follow (userId) {
+    this._addFilter(FILTER_TYPE_USER, userId)
     return this
   }
 
@@ -205,12 +218,10 @@ class InstagramStream extends Readable {
     let options = filters[key]
 
     let path = FILTER_PATH_MAP[filterType].replace(':key', encodeURIComponent(key))
-    let token = options.accessTokens.shift()
-    options.accessTokens.push(token)
 
     this._client.request('GET', path, {
       query: {
-        access_token: token,
+        access_token: this._token,
         count: 50
       }
     }).then((res) => {
@@ -244,7 +255,7 @@ class InstagramStream extends Readable {
     this.timer = null
   }
 
-  _addFilter (filter, tags, accessToken) {
+  _addFilter (filter, tags) {
     if (!Array.isArray(tags)) {
       tags = [tags]
     }
@@ -254,14 +265,10 @@ class InstagramStream extends Readable {
         this._filters[filter][tag] = {
           count: 0,
           lastUpdate: 0,
-          lastPostIds: [],
-          accessTokens: []
+          lastPostIds: []
         }
       }
       this._filters[filter][tag].count++
-      if (accessToken) {
-        this._filters[filter][tag].accessTokens.push(accessToken)
-      }
     })
 
     if (!this.isRunning) {

@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Instagram.html">Instagram</a><ul class='methods'><li data-type='method'><a href="Instagram.html#getAuth">getAuth</a></li><li data-type='method'><a href="Instagram.html#getAuthorizationUrl">getAuthorizationUrl</a></li><li data-type='method'><a href="Instagram.html#request">request</a></li><li data-type='method'><a href="Instagram.html#requestAccessToken">requestAccessToken</a></li><li data-type='method'><a href="Instagram.html#setAuth">setAuth</a></li></ul></li><li><a href="InstagramStream.html">InstagramStream</a><ul class='methods'><li data-type='method'><a href="InstagramStream.html#follow">follow</a></li><li data-type='method'><a href="InstagramStream.html#following">following</a></li><li data-type='method'><a href="InstagramStream.html#track">track</a></li><li data-type='method'><a href="InstagramStream.html#tracking">tracking</a></li><li data-type='method'><a href="InstagramStream.html#unfollow">unfollow</a></li><li data-type='method'><a href="InstagramStream.html#untrack">untrack</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#AUTH_ACCESS_TOKEN_PATH">AUTH_ACCESS_TOKEN_PATH</a></li><li><a href="global.html#AUTH_AUTHORIZATION_PATH">AUTH_AUTHORIZATION_PATH</a></li><li><a href="global.html#AUTH_PARAMS">AUTH_PARAMS</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Instagram.html">Instagram</a><ul class='methods'><li data-type='method'><a href="Instagram.html#getAuth">getAuth</a></li><li data-type='method'><a href="Instagram.html#getAuthorizationUrl">getAuthorizationUrl</a></li><li data-type='method'><a href="Instagram.html#request">request</a></li><li data-type='method'><a href="Instagram.html#requestAccessToken">requestAccessToken</a></li><li data-type='method'><a href="Instagram.html#setAuth">setAuth</a></li></ul></li><li><a href="InstagramStream.html">InstagramStream</a><ul class='methods'><li data-type='method'><a href="InstagramStream.html#follow">follow</a></li><li data-type='method'><a href="InstagramStream.html#following">following</a></li><li data-type='method'><a href="InstagramStream.html#setAccessToken">setAccessToken</a></li><li data-type='method'><a href="InstagramStream.html#track">track</a></li><li data-type='method'><a href="InstagramStream.html#tracking">tracking</a></li><li data-type='method'><a href="InstagramStream.html#unfollow">unfollow</a></li><li data-type='method'><a href="InstagramStream.html#untrack">untrack</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#AUTH_ACCESS_TOKEN_PATH">AUTH_ACCESS_TOKEN_PATH</a></li><li><a href="global.html#AUTH_AUTHORIZATION_PATH">AUTH_AUTHORIZATION_PATH</a></li><li><a href="global.html#AUTH_PARAMS">AUTH_PARAMS</a></li></ul>
 </nav>
 
 <div id="main">
@@ -222,6 +222,39 @@ underlying Instagram client.</p>
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>access_token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Access token.</p></td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -355,7 +388,7 @@ as underlying source of data.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line52">line 52</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line54">line 54</a>
     </li></ul></dd>
     
 
@@ -417,7 +450,7 @@ as underlying source of data.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line69">line 69</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -480,7 +513,7 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line61">line 61</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line63">line 63</a>
     </li></ul></dd>
     
 
@@ -507,7 +540,7 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
 
     
 
-    <h4 class="name" id="follow"><span class="type-signature"></span>follow<span class="signature">(userId, accessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="InstagramStream.html">InstagramStream</a>}</span></h4>
+    <h4 class="name" id="follow"><span class="type-signature"></span>follow<span class="signature">(userId)</span><span class="type-signature"> &rarr; {<a href="InstagramStream.html">InstagramStream</a>}</span></h4>
 
     
 
@@ -538,8 +571,6 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -565,51 +596,10 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
             <td class="description last"><p>User ID.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>accessToken</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Optional user access token.</p></td>
         </tr>
 
     
@@ -650,7 +640,7 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line110">line 110</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -754,7 +744,7 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line144">line 144</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -807,14 +797,14 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
 
     
 
-    <h4 class="name" id="track"><span class="type-signature"></span>track<span class="signature">(tag, accessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="InstagramStream.html">InstagramStream</a>}</span></h4>
+    <h4 class="name" id="setAccessToken"><span class="type-signature"></span>setAccessToken<span class="signature">(token)</span><span class="type-signature"> &rarr; {<a href="InstagramStream.html">InstagramStream</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    <p>Track tag.</p>
+    <p>Set access token.</p>
 </div>
 
 
@@ -838,8 +828,6 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -852,7 +840,7 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
 
         <tr>
             
-                <td class="name"><code>tag</code></td>
+                <td class="name"><code>token</code></td>
             
 
             <td class="type">
@@ -865,51 +853,10 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>Tag name.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>accessToken</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Optional user access token.</p></td>
+            <td class="description last"><p>Access token.</p></td>
         </tr>
 
     
@@ -950,7 +897,160 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line83">line 83</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line84">line 84</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>This instance.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="InstagramStream.html">InstagramStream</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="track"><span class="type-signature"></span>track<span class="signature">(tag)</span><span class="type-signature"> &rarr; {<a href="InstagramStream.html">InstagramStream</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Track tag.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tag</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Tag name.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -1054,7 +1154,7 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line134">line 134</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line147">line 147</a>
     </li></ul></dd>
     
 
@@ -1207,7 +1307,7 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line123">line 123</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -1360,7 +1460,7 @@ source or if request is scheduled, <code>false</code> otherwise.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line96">line 96</a>
+        <a href="stream.js.html">stream.js</a>, <a href="stream.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
