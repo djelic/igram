@@ -26,13 +26,15 @@ class InstagramStream extends Readable {
    * @param {Object} [options] Instance options.
    * @param {string} [options.client_id] Client ID.
    * @param {string} [options.client_secret] Client Secret.
+   * @param {string} [options.access_token] Access token.
    */
 
   constructor (options) {
-    options || (options = {})
     super({ objectMode: true })
 
+    options || (options = {})
     this._client = options.client || new Instagram(options)
+    this._token = options.access_token
 
     this._filters = {
       [FILTER_TYPE_TAG]: {},
@@ -72,16 +74,28 @@ class InstagramStream extends Readable {
   }
 
   /**
+   * Set access token.
+   *
+   * @param {string} token Access token.
+   *
+   * @returns {InstagramStream} This instance. 
+   */
+
+  setAccessToken (token) {
+    this._token = token
+    return this
+  }
+
+  /**
    * Track tag.
    *
    * @param {string} tag Tag name.
-   * @param {string} [accessToken] Optional user access token.
    *
    * @returns {InstagramStream} This instance.
    */
 
-  track (tag, accessToken) {
-    this._addFilter(FILTER_TYPE_TAG, tag, accessToken)
+  track (tag) {
+    this._addFilter(FILTER_TYPE_TAG, tag)
     return this
   }
 
@@ -102,13 +116,12 @@ class InstagramStream extends Readable {
    * Follow user.
    *
    * @param {string} userId User ID.
-   * @param {string} [accessToken] Optional user access token.
    *
    * @returns {InstagramStream} This instance.
    */
 
-  follow (userId, accessToken) {
-    this._addFilter(FILTER_TYPE_USER, userId, accessToken)
+  follow (userId) {
+    this._addFilter(FILTER_TYPE_USER, userId)
     return this
   }
 
@@ -165,12 +178,10 @@ class InstagramStream extends Readable {
     let options = filters[key]
 
     let path = FILTER_PATH_MAP[filterType].replace(':key', encodeURIComponent(key))
-    let token = options.accessTokens.shift()
-    options.accessTokens.push(token)
 
     this._client.request('GET', path, {
       query: {
-        access_token: token,
+        access_token: this._token,
         count: 50
       }
     }).then((res) => {
@@ -204,7 +215,7 @@ class InstagramStream extends Readable {
     this.timer = null
   }
 
-  _addFilter (filter, tags, accessToken) {
+  _addFilter (filter, tags) {
     if (!Array.isArray(tags)) {
       tags = [tags]
     }
@@ -214,14 +225,10 @@ class InstagramStream extends Readable {
         this._filters[filter][tag] = {
           count: 0,
           lastUpdate: 0,
-          lastPostIds: [],
-          accessTokens: []
+          lastPostIds: []
         }
       }
       this._filters[filter][tag].count++
-      if (accessToken) {
-        this._filters[filter][tag].accessTokens.push(accessToken)
-      }
     })
 
     if (!this.isRunning) {

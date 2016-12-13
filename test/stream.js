@@ -60,6 +60,7 @@ describe('InstagramStream', () => {
       let response = require('./mock/tags_nature_media_recent.json')
       let auth = { client_id: 'foo', client_secret: 'bar', access_token: 'baz' }
       stream.client.setAuth(auth)
+      stream.setAccessToken(auth.access_token)
 
       nock('https://api.instagram.com')
         .get('/v1/tags/nature/media/recent')
