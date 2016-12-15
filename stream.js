@@ -215,20 +215,20 @@ class InstagramStream extends Readable {
     this.timer = null
   }
 
-  _addFilter (filter, tags) {
-    if (!Array.isArray(tags)) {
-      tags = [tags]
+  _addFilter (filter, values) {
+    if (!Array.isArray(values)) {
+      values = [values]
     }
 
-    tags.forEach((tag) => {
-      if (!this._filters[filter][tag]) {
-        this._filters[filter][tag] = {
+    values.forEach((value) => {
+      if (!this._filters[filter][value]) {
+        this._filters[filter][value] = {
           count: 0,
           lastUpdate: 0,
           lastPostIds: []
         }
       }
-      this._filters[filter][tag].count++
+      this._filters[filter][value].count++
     })
 
     if (!this.isRunning) {
@@ -236,15 +236,15 @@ class InstagramStream extends Readable {
     }
   }
 
-  _removeFilter (filter, tags) {
-    if (!Array.isArray(tags)) {
-      tags = [tags]
+  _removeFilter (filter, values) {
+    if (!Array.isArray(values)) {
+      values = [values]
     }
 
-    tags.forEach((tag) => {
-      if (!this._filters[filter][tag]) return
-      if (--this._filters[filter][tag].count === 0) {
-        delete this._filters[filter][tag]
+    values.forEach((value) => {
+      if (!this._filters[filter][value]) return
+      if (--this._filters[filter][value].count === 0) {
+        delete this._filters[filter][value]
       }
     })
 
