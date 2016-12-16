@@ -42,8 +42,9 @@ class InstagramStream extends Readable {
     }
 
     this.timer = null
-    this.fetching = false
     this.fetchFilterType = 0
+    this.interval = 1000
+    this.lastFetch = 0
   }
 
   /**
@@ -53,15 +54,6 @@ class InstagramStream extends Readable {
 
   get client () {
     return this._client
-  }
-
-  /**
-   * `true` if currently fetching data from underlying
-   * source or if request is scheduled, `false` otherwise.
-   */
-
-  get isRunning () {
-    return !!(this.timer || this.fetching)
   }
 
   /**
@@ -159,55 +151,60 @@ class InstagramStream extends Readable {
   }
 
   _read (size) {
-    if (this.isRunning || this.isEmpty) return
-    this._fetch()
+    this._scheduleFetch()
   }
 
   _fetch () {
-    this.fetching = true
+    if (this.isEmpty) return
 
     let filterTypes = Object.keys(this._filters)
     this.fetchFilterType = ++this.fetchFilterType % filterTypes.length
     let filterType = filterTypes[this.fetchFilterType]
     let filters = this._filters[filterType]
-    let key = Object.keys(filters)
+    let value = Object.keys(filters)
       .sort((a, b) => filters[a].lastUpdate - filters[b].lastUpdate)
       .shift()
 
-    if (!key) return this._fetch()
-    let options = filters[key]
+    if (!value) return this._fetch()
 
-    let path = FILTER_PATH_MAP[filterType].replace(':key', encodeURIComponent(key))
+    let path = FILTER_PATH_MAP[filterType].replace(':key', encodeURIComponent(value))
 
+    this.lastFetch = Date.now()
     this._client.request('GET', path, {
       query: {
         access_token: this._token,
         count: 50
       }
     }).then((res) => {
-      options.lastUpdate = Date.now()
+      let meta = filters[value]
+      if (!meta) return
+
+      meta.lastUpdate = Date.now()
 
       res.body.data
-        .filter((post) => !~options.lastPostIds.indexOf(post.id))
+        .filter((post) => !~meta.lastPostIds.indexOf(post.id))
         .forEach((data) => {
-          options.lastPostIds.push(data.id)
+          meta.lastPostIds.push(data.id)
           this.push(data)
         })
 
-      options.lastPostIds = options.lastPostIds.splice(-50)
-    }).catch((err) => {
-      this.emit('error', err)
+      meta.lastPostIds = meta.lastPostIds.splice(-50)
     }).then(() => {
       this._scheduleFetch()
-      this.fetching = false
+    }).catch((err) => {
+      this.emit('error', err)
+      this._scheduleFetch(err)
     })
   }
 
-  _scheduleFetch () {
+  _scheduleFetch (err) {
+    if (this.isEmpty || this.timer) return
+    let elapsedTime = Date.now() - this.lastFetch
+    if (elapsedTime > this.interval) return this._fetch()
     this.timer = setTimeout(() => {
       this._clearTimer()
       this._fetch()
-    }, 720)
+    }, this.interval - elapsedTime)
   }
 
   _clearTimer () {
@@ -231,9 +228,7 @@ class InstagramStream extends Readable {
       this._filters[filter][value].count++
     })
 
-    if (!this.isRunning) {
-      this._fetch()
-    }
+    process.nextTick(this._scheduleFetch.bind(this))
   }
 
   _removeFilter (filter, values) {
@@ -248,7 +243,7 @@ class InstagramStream extends Readable {
       }
     })
 
-    if (this.isEmpty && this.isRunning) {
+    if (this.isEmpty) {
       this._clearTimer()
     }
   }
